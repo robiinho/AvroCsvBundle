@@ -1,9 +1,9 @@
 {
-    "name": "avro/csv-bundle",
+    "name": "misatotremor/csv-bundle",
     "type": "symfony-bundle",
     "description": "Symfony2 CSV Bundle",
     "keywords": ["CSV", "import", "export"],
-    "homepage": "http://github.com/jdewit/AvroCsvBundle",
+    "homepage": "http://github.com/MisatoTremor/AvroCsvBundle",
     "license": "MIT",
     "authors": [
         {

@@ -1,8 +1,10 @@
-AvroCsvBundle [![Build Status](https://github.com/jdewit/AvroCsvBundle/actions/workflows/continuous-integration.yml/badge.svg)](https://github.com/jdewit/AvroCsvBundle)  [![codecov](https://codecov.io/gh/jdewit/AvroCsvBundle/branch/1.0.x/graph/badge.svg?token=71BXHZLTCH)](https://codecov.io/gh/jdewit/AvroCsvBundle)
+AvroCsvBundle [![Build Status](https://github.com/MisatoTremor/AvroCsvBundle/actions/workflows/continuous-integration.yml/badge.svg)](https://github.com/MisatoTremor/AvroCsvBundle) [![codecov](https://codecov.io/gh/MisatoTremor/AvroCsvBundle/branch/1.0.x/graph/badge.svg?token=71BXHZLTCH)](https://codecov.io/gh/MisatoTremor/AvroCsvBundle)
 -------------------
 
 This bundle provides an easy way to upload data to your db using csv files with 
-just a few configuration parameters.  
+just a few configuration parameters.
+
+This is a fork of jdewits [original code](https://github.com/jdewit/AvroCsvBundle).
 
 Status
 ------
@@ -32,17 +34,24 @@ Installation
 
 This bundle is listed on packagist.
 
-Simply add it to your apps composer.json file
+Download the bundle
 
-```json
-    "avro/csv-bundle": "^0.4.2"
+```shell
+$ composer require misatotremor/csv-bundle
 ```
 
-Enable the bundle in config/bundles.php as well as the dependent AvroCaseBundle:
+Enable the bundle as well as the dependent AvroCaseBundle:
 
 ```php
-    Avro\CsvBundle\AvroCsvBundle::class => ['all' => true],
+<?php
+// config/bundles.php
+
+return [
+    // ...
     Avro\CaseBundle\AvroCaseBundle::class => ['all' => true],
+    Avro\CsvBundle\AvroCsvBundle::class => ['all' => true],
+    // ...
+];
 ```
 
 Configuration
