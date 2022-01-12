@@ -32,8 +32,7 @@ abstract class Exporter
 
         $content = null;
         foreach ($iterableResults as $row) {
-            $row = reset($row);
-            if (null == $content) {
+            if (null === $content) {
                 $content = $this->arrayToCsv(array_keys($row));
             }
             $content .= $this->arrayToCsv(array_values($row));
