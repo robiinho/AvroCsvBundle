@@ -16,7 +16,7 @@
         }
     ],
     "require": {
-        "php": "^7.1 || ^8.0",
+        "php": "^7.2 || ^8.0",
         "ext-json": "*",
         "misatotremor/case-bundle": "^1.0.0"
     },
