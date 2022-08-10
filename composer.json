@@ -16,14 +16,13 @@
         }
     ],
     "require": {
-        "php": "^7.2 || ^8.0",
+        "php": "^7.4 || ^8.0",
         "ext-json": "*",
         "misatotremor/case-bundle": "^1.0.0"
     },
     "require-dev": {
         "doctrine/doctrine-bundle": "^1.12|^2.0",
         "doctrine/orm": "^2.8",
-        "phpunit/phpunit": "^7.5 || ^8.5 || ^9.3 || ^10.0",
         "symfony/event-dispatcher": "^4.4|^5.0|^6.0",
         "symfony/form": "^4.4|^5.0|^6.0",
         "symfony/framework-bundle": "^4.4|^5.0|^6.0",
