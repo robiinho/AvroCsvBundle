@@ -9,6 +9,7 @@ namespace Avro\CsvBundle\Import;
 
 use Avro\CaseBundle\Util\CaseConverter;
 use Avro\CsvBundle\Event\AssociationFieldEvent;
+use Avro\CsvBundle\Event\CreateObjectEvent;
 use Avro\CsvBundle\Event\CustomFieldEvent;
 use Avro\CsvBundle\Event\RowAddedEvent;
 use Avro\CsvBundle\Event\RowErrorEvent;
@@ -191,7 +192,12 @@ class Importer implements ImporterInterface
     private function addRow($row, $fields, $andFlush = true): bool
     {
         // Create new entity
-        $entity = new $this->class();
+        $event = new CreateObjectEvent($this->class);
+        $this->dispatcher->dispatch($event);
+        $entity = $event->getObject();
+        if (null === $entity) {
+            $entity = new $this->class();
+        }
         // Loop through fields and set to row value
         foreach ($fields as $k => $v) {
             if ($this->metadata->hasField(lcfirst($v))) {
