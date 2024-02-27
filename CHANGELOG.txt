@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+1.1.x
+-----
+
+ * Make AnnotationReader optional
+ * Update changelog
+
 1.1.0
 -----
 

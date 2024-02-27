@@ -10,7 +10,6 @@ namespace Avro\CsvBundle\Tests\Util;
 use Avro\CaseBundle\Util\CaseConverter;
 use Avro\CsvBundle\Tests\TestEntity;
 use Avro\CsvBundle\Util\FieldRetriever;
-use Doctrine\Common\Annotations\AnnotationReader;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -31,7 +30,6 @@ class FieldRetrieverTest extends TestCase
 
     public function setUp(): void
     {
-        $annotationReader = new AnnotationReader();
         $this->caseConverter = $this->createMock(CaseConverter::class);
         $this->caseConverter
             ->method('convert')
@@ -51,7 +49,7 @@ class FieldRetrieverTest extends TestCase
                     ['custom', 'camel', 'custom'],
                 ]
             );
-        $this->fieldRetriever = new FieldRetriever($annotationReader, $this->caseConverter);
+        $this->fieldRetriever = new FieldRetriever($this->caseConverter);
         $this->class = TestEntity::class;
     }
 

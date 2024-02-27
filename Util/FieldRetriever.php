@@ -9,7 +9,7 @@ namespace Avro\CsvBundle\Util;
 
 use Avro\CaseBundle\Util\CaseConverter;
 use Avro\CsvBundle\Annotation\ImportExclude;
-use Doctrine\Common\Annotations\Reader as AnnotationReader;
+use Doctrine\Common\Annotations\AnnotationReader;
 
 /**
  * Retrieves the fields of a Doctrine entity/document that
@@ -23,21 +23,22 @@ class FieldRetriever
     protected $caseConverter;
 
     /**
-     * @param AnnotationReader $annotationReader The annotation reader service
-     * @param CaseConverter    $caseConverter    The caseConverter service
+     * @param CaseConverter $caseConverter The caseConverter service
      */
-    public function __construct(AnnotationReader $annotationReader, CaseConverter $caseConverter)
+    public function __construct(CaseConverter $caseConverter)
     {
-        $this->annotationReader = $annotationReader;
+        if (class_exists(AnnotationReader::class)) {
+            $this->annotationReader = new AnnotationReader();
+        }
         $this->caseConverter = $caseConverter;
     }
 
     /**
      * Get the entity/documents field names.
      *
-     * @param string $class     The class name
-     * @param string $format    The desired field case format
-     * @param bool   $copyToKey Copy the field values to their respective key
+     * @param string $class The class name
+     * @param string $format The desired field case format
+     * @param bool $copyToKey Copy the field values to their respective key
      *
      * @return array $fields
      */
@@ -49,9 +50,11 @@ class FieldRetriever
         $fields = [];
         foreach ($properties as $property) {
             $addField = true;
-            foreach ($this->annotationReader->getPropertyAnnotations($property) as $annotation) {
-                if ($annotation instanceof ImportExclude) {
-                    $addField = false;
+            if ($this->annotationReader) {
+                foreach ($this->annotationReader->getPropertyAnnotations($property) as $annotation) {
+                    if ($annotation instanceof ImportExclude) {
+                        $addField = false;
+                    }
                 }
             }
             if (PHP_VERSION_ID >= 80000) {

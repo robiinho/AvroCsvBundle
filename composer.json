@@ -21,13 +21,17 @@
         "misatotremor/case-bundle": "^1.0.0"
     },
     "require-dev": {
-        "doctrine/doctrine-bundle": "^1.12|^2.0",
+        "doctrine/annotations": "^1.13 || ^2.0",
+        "doctrine/doctrine-bundle": "^1.12 || ^2.0",
         "doctrine/orm": "^2.8",
-        "symfony/event-dispatcher": "^4.4|^5.0|^6.0",
-        "symfony/form": "^4.4|^5.0|^6.0",
-        "symfony/framework-bundle": "^4.4|^5.0|^6.0",
-        "symfony/routing": "^4.4|^5.0|^6.0",
-        "symfony/phpunit-bridge": "^4.4|^5.0|^6.0"
+        "symfony/event-dispatcher": "^4.4 || ^5.0 || ^6.0",
+        "symfony/form": "^4.4 || ^5.0 || ^6.0",
+        "symfony/framework-bundle": "^4.4 || ^5.0 || ^6.0",
+        "symfony/routing": "^4.4 || ^5.0 || ^6.0",
+        "symfony/phpunit-bridge": "^4.4 || ^5.0 || ^6.0"
+    },
+    "conflict": {
+        "doctrine/annotations": "<1.13 || >=3.0"
     },
     "autoload": {
         "psr-4": { "Avro\\CsvBundle\\": "" }
