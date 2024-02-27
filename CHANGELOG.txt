@@ -4,6 +4,7 @@ CHANGELOG
 1.1.x
 -----
 
+ * Add return type for Symfony 7 compatibility
  * Make AnnotationReader optional
  * Update changelog
 
