@@ -4,6 +4,7 @@ CHANGELOG
 1.1.x
 -----
 
+ * Update artifact and codecov GH actions
  * Update GH actions using old node version
  * Add return type for Symfony 7 compatibility
  * Make AnnotationReader optional
