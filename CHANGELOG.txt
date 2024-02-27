@@ -1,6 +1,38 @@
 CHANGELOG
 =========
 
+1.1.0
+-----
+
+ * Add event to allow custom object creation on import
+ * Update minimum PHP version to minimum of dependencies
+ * Add more PHP versions to CI
+ * Fix minimum PHP version
+
+1.0.3
+-----
+
+ * Fix Exporter for Doctrine 2.8+
+
+1.0.2
+-----
+
+ * Rename vendor
+
+1.0.1
+-----
+
+ * Add attribute support
+ * Fix README badge
+
+1.0.0
+-----
+
+ * Add Codecov badge
+ * Fix dependency versions
+ * Fix workflows directory
+ * Add Symfony 6 support, fix CS
+
 0.5.1
 -----
 
