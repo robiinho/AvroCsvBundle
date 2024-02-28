@@ -4,6 +4,7 @@ CHANGELOG
 1.1.x
 -----
 
+ * Update Symfony requirements to supported versions
  * Remove unused workflow options
  * Fix artifact path
  * Update artifact and codecov GH actions

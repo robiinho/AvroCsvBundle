@@ -34,10 +34,9 @@ jobs:
                     # Tests the lowest set of dependencies
                     -   php-version: "7.4"
                         dependencies: "lowest"
-                        stability: "stable"
                         symfony-deprecations-helper: "weak"
 
-                    # Test against highest set of dependencies
+                    # Test against the highest set of dependencies
                     -   php-version: "8.3"
                         dependencies: "highest"
                         stability: "dev"
@@ -57,8 +56,8 @@ jobs:
                     ini-values: "zend.assertions=1"
 
             -   name: "Enforce using stable dependencies"
-                run: "composer config minimum-stability stable"
-                if: "${{ matrix.stability == 'stable' }}"
+                if: "${{ matrix.composer-stability }}"
+                run: "composer config minimum-stability ${{ matrix.composer-stability }}"
 
             -   name: "Install dependencies with Composer"
                 uses: "ramsey/composer-install@v2"
