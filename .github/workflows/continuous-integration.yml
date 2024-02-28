@@ -30,12 +30,11 @@ jobs:
                     - "stable"
                 symfony-deprecations-helper:
                     - ""
-                include:
+                exclude:
                     # Tests the lowest set of dependencies
                     -   php-version: "7.4"
                         dependencies: "lowest"
-                        symfony-deprecations-helper: "weak"
-
+                include:
                     # Test against the highest set of dependencies
                     -   php-version: "8.3"
                         dependencies: "highest"

@@ -4,6 +4,7 @@ CHANGELOG
 1.1.x
 -----
 
+ * Remove lowest PHP 7.4 test due to PHPUnit Bridge issue
  * Re-add old Symfony LTS version
  * Update Symfony requirements to supported versions
  * Remove unused workflow options
