@@ -4,6 +4,7 @@ CHANGELOG
 1.1.x
 -----
 
+ * Re-add old Symfony LTS version
  * Update Symfony requirements to supported versions
  * Remove unused workflow options
  * Fix artifact path
