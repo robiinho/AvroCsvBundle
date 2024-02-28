@@ -4,6 +4,7 @@ CHANGELOG
 1.1.x
 -----
 
+ * Add CodeCOV token config
  * Remove lowest PHP 7.4 test due to PHPUnit Bridge issue
  * Re-add old Symfony LTS version
  * Update Symfony requirements to supported versions
