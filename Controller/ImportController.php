@@ -12,8 +12,7 @@ use Avro\CsvBundle\Form\Type\ImportFormType;
 use Avro\CsvBundle\Import\ImporterInterface;
 use Avro\CsvBundle\Util\FieldRetriever;
 use Avro\CsvBundle\Util\Reader;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,9 +25,7 @@ use Twig\Environment;
  *
  * @author Joris de Wit <joris.w.dewit@gmail.com>
  */
-class ImportController implements ContainerAwareInterface
-{
-    use ContainerAwareTrait;
+class ImportController {
 
     private $fieldRetriever;
     private $formFactory;
@@ -37,15 +34,17 @@ class ImportController implements ContainerAwareInterface
     private $caseConverter;
     private $reader;
     private $importer;
+    private $params;
 
     public function __construct(
-        FieldRetriever $fieldRetriever,
-        FormFactoryInterface $formFactory,
-        Environment $twig,
-        RouterInterface $router,
-        CaseConverter $caseConverter,
-        Reader $reader,
-        ImporterInterface $importer
+            FieldRetriever $fieldRetriever,
+            FormFactoryInterface $formFactory,
+            Environment $twig,
+            RouterInterface $router,
+            CaseConverter $caseConverter,
+            Reader $reader,
+            ImporterInterface $importer,
+            ParameterBagInterface $params
     ) {
         $this->fieldRetriever = $fieldRetriever;
         $this->formFactory = $formFactory;
@@ -54,6 +53,7 @@ class ImportController implements ContainerAwareInterface
         $this->caseConverter = $caseConverter;
         $this->reader = $reader;
         $this->importer = $importer;
+        $this->params = $params;
     }
 
     /**
@@ -61,23 +61,22 @@ class ImportController implements ContainerAwareInterface
      *
      * @param string $alias The objects alias
      */
-    public function uploadAction($alias): Response
-    {
+    public function uploadAction($alias): Response {
         $fieldChoices = $this->fieldRetriever->getFields(
-            $this->container->getParameter(sprintf('avro_csv.objects.%s.class', $alias)),
-            'title',
-            true
+                $this->params->get(sprintf('avro_csv.objects.%s.class', $alias)),
+                'title',
+                true
         );
         $form = $this->formFactory->create(ImportFormType::class, null, ['field_choices' => $fieldChoices]);
 
         return new Response(
-            $this->twig->render(
-                '@AvroCsv/Import/upload.html.twig',
-                [
-                    'form' => $form->createView(),
-                    'alias' => $alias,
-                ]
-            )
+                $this->twig->render(
+                        '@AvroCsv/Import/upload.html.twig',
+                        [
+                            'form' => $form->createView(),
+                            'alias' => $alias,
+                        ]
+                )
         );
     }
 
@@ -87,12 +86,11 @@ class ImportController implements ContainerAwareInterface
      * @param Request $request The request
      * @param string  $alias   The objects alias
      */
-    public function mappingAction(Request $request, $alias): Response
-    {
+    public function mappingAction(Request $request, $alias): Response {
         $fieldChoices = $this->fieldRetriever->getFields(
-            $this->container->getParameter(sprintf('avro_csv.objects.%s.class', $alias)),
-            'title',
-            true
+                $this->params->get(sprintf('avro_csv.objects.%s.class', $alias)),
+                'title',
+                true
         );
 
         $form = $this->formFactory->create(ImportFormType::class, null, ['field_choices' => $fieldChoices]);
@@ -103,7 +101,7 @@ class ImportController implements ContainerAwareInterface
                 $file = $form['file']->getData();
                 $filename = $file->getFilename();
 
-                $tmpUploadDir = $this->container->getParameter('avro_csv.tmp_upload_dir');
+                $tmpUploadDir = $this->params->get('avro_csv.tmp_upload_dir');
 
                 $file->move($tmpUploadDir);
 
@@ -117,29 +115,29 @@ class ImportController implements ContainerAwareInterface
                 $form->get('fields')->setData(array_fill_keys((array) $headers, null));
                 $form->handleRequest($request);
 
-                $rows = $this->reader->getRows($this->container->getParameter('avro_csv.sample_count'));
+                $rows = $this->reader->getRows($this->params->get('avro_csv.sample_count'));
 
                 return new Response(
-                    $this->twig->render(
-                        '@AvroCsv/Import/mapping.html.twig',
-                        [
-                            'form' => $form->createView(),
-                            'alias' => $alias,
-                            'headers' => array_combine((array) $headers, (array) $fileHeaders),
-                            'headersJson' => json_encode(
-                                $this->caseConverter->toTitleCase($fileHeaders),
-                                JSON_FORCE_OBJECT
-                            ),
-                            'rows' => $rows,
-                        ]
-                    )
+                        $this->twig->render(
+                                '@AvroCsv/Import/mapping.html.twig',
+                                [
+                                    'form' => $form->createView(),
+                                    'alias' => $alias,
+                                    'headers' => array_combine((array) $headers, (array) $fileHeaders),
+                                    'headersJson' => json_encode(
+                                            $this->caseConverter->toTitleCase($fileHeaders),
+                                            JSON_FORCE_OBJECT
+                                    ),
+                                    'rows' => $rows,
+                                ]
+                        )
                 );
             }
         } else {
             return new RedirectResponse(
-                $this->router->generate(
-                    $this->container->getParameter(sprintf('avro_csv.objects.%s.redirect_route', $alias))
-                )
+                    $this->router->generate(
+                            $this->params->get(sprintf('avro_csv.objects.%s.redirect_route', $alias))
+                    )
             );
         }
     }
@@ -150,12 +148,11 @@ class ImportController implements ContainerAwareInterface
      * @param Request $request The request
      * @param string  $alias   The objects alias
      */
-    public function processAction(Request $request, $alias): Response
-    {
+    public function processAction(Request $request, $alias): Response {
         $fieldChoices = $this->fieldRetriever->getFields(
-            $this->container->getParameter(sprintf('avro_csv.objects.%s.class', $alias)),
-            'title',
-            true
+                $this->params->get(sprintf('avro_csv.objects.%s.class', $alias)),
+                'title',
+                true
         );
 
         $form = $this->formFactory->create(ImportFormType::class, null, ['field_choices' => $fieldChoices]);
@@ -164,21 +161,21 @@ class ImportController implements ContainerAwareInterface
             $form->handleRequest($request);
             if ($form->isValid()) {
                 $this->importer->init(
-                    sprintf(
-                        '%s%s',
-                        $this->container->getParameter('avro_csv.tmp_upload_dir'),
-                        $form['filename']->getData()
-                    ),
-                    $this->container->getParameter(sprintf('avro_csv.objects.%s.class', $alias)),
-                    $form['delimiter']->getData(),
-                    'form'
+                        sprintf(
+                                '%s%s',
+                                $this->params->get('avro_csv.tmp_upload_dir'),
+                                $form['filename']->getData()
+                        ),
+                        $this->params->get(sprintf('avro_csv.objects.%s.class', $alias)),
+                        $form['delimiter']->getData(),
+                        'form'
                 );
 
                 $this->importer->import($form['fields']->getData());
 
                 $request->getSession()->getFlashBag()->set(
-                    'success',
-                    $this->importer->getImportCount().' items imported. '.$this->importer->getImportErrors().' errors.'
+                        'success',
+                        $this->importer->getImportCount() . ' items imported. ' . $this->importer->getImportErrors() . ' errors.'
                 );
             } else {
                 $request->getSession()->getFlashBag()->set('error', 'Import failed. Please try again.');
@@ -186,9 +183,9 @@ class ImportController implements ContainerAwareInterface
         }
 
         return new RedirectResponse(
-            $this->router->generate(
-                $this->container->getParameter(sprintf('avro_csv.objects.%s.redirect_route', $alias))
-            )
+                $this->router->generate(
+                        $this->params->get(sprintf('avro_csv.objects.%s.redirect_route', $alias))
+                )
         );
     }
 }
