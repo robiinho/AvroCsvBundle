@@ -1,3 +1,14 @@
+copied and edited from : https://github.com/MisatoTremor to make it work with symfony7 - just the beginning of edition. The upload page is now loading.
+
++ needed to add : services.yaml
+```shell
+    Avro\CsvBundle\Controller\ImportController:
+        public: true
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.    
+```
+
+
 AvroCsvBundle [![Build Status](https://github.com/MisatoTremor/AvroCsvBundle/actions/workflows/continuous-integration.yml/badge.svg)](https://github.com/MisatoTremor/AvroCsvBundle) [![codecov](https://codecov.io/gh/MisatoTremor/AvroCsvBundle/branch/1.0.x/graph/badge.svg?token=71BXHZLTCH)](https://codecov.io/gh/MisatoTremor/AvroCsvBundle)
 -------------------
 
