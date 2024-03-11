@@ -7,7 +7,13 @@ copied and edited from : https://github.com/MisatoTremor to make it work with sy
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.    
 ```
-
++ packages/avro_csv.yaml  , carefull about root_dir deprecated, now use : %kernel.project_dir%
+```
+avro_csv:
+    db_driver: orm # supports orm
+    batch_size: 15 # The batch size between flushing & clearing the doctrine object manager
+    tmp_upload_dir: "%kernel.project_dir%/public/uploads/tmp/" # The directory to upload the csv files to
+```
 
 AvroCsvBundle [![Build Status](https://github.com/MisatoTremor/AvroCsvBundle/actions/workflows/continuous-integration.yml/badge.svg)](https://github.com/MisatoTremor/AvroCsvBundle) [![codecov](https://codecov.io/gh/MisatoTremor/AvroCsvBundle/branch/1.0.x/graph/badge.svg?token=71BXHZLTCH)](https://codecov.io/gh/MisatoTremor/AvroCsvBundle)
 -------------------
