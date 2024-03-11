@@ -15,6 +15,12 @@ avro_csv:
     tmp_upload_dir: "%kernel.project_dir%/public/uploads/tmp/" # The directory to upload the csv files to
 ```
 
++ in my own project, override template : ../templates/bundles/AvroCsvBundle/Import/mapping.html.twig + upload.html.twig .
++ modified:
+```
+{% extends "base.html.twig" %}    #{% extends 'AvroCsvBundle::layout.html.twig' %}
+``` 
+
 AvroCsvBundle [![Build Status](https://github.com/MisatoTremor/AvroCsvBundle/actions/workflows/continuous-integration.yml/badge.svg)](https://github.com/MisatoTremor/AvroCsvBundle) [![codecov](https://codecov.io/gh/MisatoTremor/AvroCsvBundle/branch/1.0.x/graph/badge.svg?token=71BXHZLTCH)](https://codecov.io/gh/MisatoTremor/AvroCsvBundle)
 -------------------
 
